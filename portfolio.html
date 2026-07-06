@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Name</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface2: #1c1c26;
+      --border: #2a2a3a;
+      --accent: #7c6aff;
+      --accent2: #a78bfa;
+      --text: #e8e8f0;
+      --muted: #8888aa;
+      --glow: rgba(124, 106, 255, 0.15);
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: transparent;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Background blobs */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -200px; left: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(124,106,255,0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -200px; right: -200px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(167,139,250,0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* NAV TABS */
+    nav {
+      display: flex;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 6px;
+      margin-bottom: 40px;
+      width: fit-content;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 22px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.01em;
+    }
+
+    nav button:hover { color: var(--text); background: var(--surface2); }
+
+    nav button.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 18px rgba(124, 106, 255, 0.45);
+    }
+
+    /* TAB PANELS */
+    .tab { display: none; }
+    .tab.active { display: block; animation: fadeUp 0.35s ease; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── HOME TAB ── */
+    .hero {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      margin-bottom: 52px;
+    }
+
+    .avatar {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      font-weight: 700;
+      color: #fff;
+      box-shadow: 0 0 32px rgba(124, 106, 255, 0.4);
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .hero-text h1 {
+      font-size: 38px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 30%, var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+    }
+
+    .hero-text .role {
+      color: var(--muted);
+      font-size: 16px;
+      margin-top: 8px;
+      font-weight: 400;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .badge {
+      background: var(--glow);
+      border: 1px solid rgba(124,106,255,0.3);
+      color: var(--accent2);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 99px;
+    }
+
+    .resume-badge {
+      background: rgba(16, 185, 129, 0.15); /* Emerald green background */
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399; /* Emerald green text */
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .resume-badge:hover {
+      background: rgba(16, 185, 129, 0.25);
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.25);
+      transform: translateY(-1px);
+    }
+
+    /* Section blocks */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 30px;
+      margin-bottom: 20px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .card-icon {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      background: var(--glow);
+      border: 1px solid rgba(124,106,255,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .card h2 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+
+    .about-text {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    /* Skills */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .skill-tag {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 16px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .skill-tag:hover {
+      border-color: var(--accent);
+      color: var(--accent2);
+      background: var(--glow);
+    }
+
+    /* Education */
+    .edu-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .edu-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: 6px;
+      flex-shrink: 0;
+      box-shadow: 0 0 8px rgba(124,106,255,0.6);
+    }
+
+    .edu-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .edu-sub {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 3px;
+    }
+    
+    /* ── MODAL & TABLE STYLES ── */
+    .modal {
+      display: none; 
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(5px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .modal.active { display: flex; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+
+    .modal-content {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      width: 90%;
+      max-width: 900px;
+      padding: 24px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h2 { font-size: 20px; color: var(--text); }
+
+    .close-btn {
+      background: none; border: none; color: var(--muted);
+      font-size: 28px; cursor: pointer; transition: color 0.2s;
+      line-height: 1;
+    }
+    
+    .close-btn:hover { color: var(--accent2); }
+
+    .table-container { overflow-x: auto; }
+
+    .awards-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .awards-table th, .awards-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    .awards-table th {
+      color: var(--text);
+      font-weight: 600;
+      background: var(--surface2);
+    }
+
+    .awards-table td { color: var(--muted); }
+    .awards-table td:first-child { color: var(--text); font-weight: 500; }
+
+    .table-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+      background: var(--glow);
+      padding: 4px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(124,106,255,0.3);
+    }
+
+    .table-link:hover {
+      color: var(--accent2);
+      border-color: var(--accent2);
+    }
+
+
+    /* ── PROJECTS & EXPERIENCE TAB ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    @media (max-width: 600px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      .hero { flex-direction: column; text-align: center; }
+      .badge-row { justify-content: center; }
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.25s;
+      text-decoration: none;
+      display: block;
+      cursor: default;
+    }
+
+    .project-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 24px var(--glow);
+      transform: translateY(-2px);
+    }
+
+    .project-card .proj-icon {
+      font-size: 28px;
+      margin-bottom: 14px;
+    }
+
+    .project-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .project-card p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .proj-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .proj-tag {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+
+    /* ── CONTACT TAB ── */
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+
+    .contact-item:hover {
+      border-color: var(--accent);
+      background: var(--glow);
+    }
+
+    .contact-item .c-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: var(--glow);
+      border: 1px solid rgba(124,106,255,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .contact-item .c-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+
+    .contact-item .c-value {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 60px;
+    }
+
+    /* ── INTERACTIVE BACKGROUND ── */
+    #canvas-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1; /* Pushes the canvas firmly behind your cards, but above the html background */
+      pointer-events: none;
+    }
+
+  </style>
+</head>
+<body>
+<canvas id="canvas-bg"></canvas>
+<div class="wrapper">
+
+  <nav>
+    <button class="active" onclick="showTab('home', this)">Home</button>
+    <button onclick="showTab('experience', this)">Working Experience</button>
+    <button onclick="showTab('projects', this)">Projects</button>
+    <button onclick="showTab('awards', this)">Awards and Certificates</button>
+    <button onclick="showTab('contact', this)">Contact</button>
+  </nav>
+
+  <!-- ═══════════ HOME TAB ═══════════ -->
+  <div id="home" class="tab active">
+
+    <div class="hero">
+      <div class="avatar"><img src="files/Profile_pic.JPG" alt="Declan Chong" /></div>
+      <div class="hero-text">
+        <h1>Declan Chong</h1>
+        <div class="role">Bachelor of Computer Science (AI Specialist)</div>
+        <div class="badge-row">
+          <span class="badge">👀 Open to Work</span>
+          <a href="files/resume.pdf" target="_blank" class="resume-badge">📄 View Resume</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- About -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">✦</div>
+        <h2>About Me</h2>
+      </div>
+      <p class="about-text">
+        A graduated Bachelor of Computer Science (AI Specialization) student at Taylor’s University with hands-on industry experience as a Data Analyst Intern at AIA Bhd. 
+        Experienced in SQL, data extraction, reporting automation, data analysis, and User Acceptance Testing (UAT). 
+        Passionate about transforming data into actionable insights and developing technology-driven solutions. 
+        Currently seeking permanent or contract opportunities in Data Analytics, Data Engineering, Business Intelligence, SQL Development, Front-End Development, UI/UX, 
+        and other IT-related roles where I can contribute while continuously growing my technical expertise.
+      </p>
+    </div>
+
+    <!-- Education -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🎓</div>
+        <h2>Education</h2>
+      </div>
+      <div class="edu-item">
+        <div class="edu-dot"></div>
+        <div>
+          <div class="edu-title">Diploma in Information Technology</div>
+          <div class="edu-sub">Taylor's College &nbsp;·&nbsp; 2022 – 2024</div>
+        </div>
+      </div>
+      <br>
+      <div class="edu-item">
+        <div class="edu-dot"></div>
+        <div>
+          <div class="edu-title">Bachelor of Computer Science</div>
+          <div class="edu-sub">Taylor's University &nbsp;·&nbsp; 2024 – 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skills -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">💻</div>
+        <h2>Programming Languages</h2>
+      </div>
+      <div class="skills-grid">
+        <span class="skill-tag">HTML</span>
+        <span class="skill-tag">CSS</span>
+        <span class="skill-tag">JAVA</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">R</span>
+        <span class="skill-tag">SQL</span>
+        <span class="skill-tag">C++</span>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">⚡</div>
+        <h2>Technical Skills</h2>
+      </div>
+      <div class="skills-grid">
+        <span class="skill-tag">Microsoft Office</span>
+        <span class="skill-tag">Google Workspace</span>
+        <span class="skill-tag">Video Editing</span>
+        <span class="skill-tag">Adobe Illustrator</span>
+        <span class="skill-tag">Adobe Photoshop</span>
+        <span class="skill-tag">Canva</span>
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- ═══════════ EXPERIENCE TAB ═══════════ -->
+  <div id="experience" class="tab">
+
+    <div class="card" style="margin-bottom:28px;">
+      <div class="card-header">
+        <div class="card-icon">💼</div>
+        <h2>Working Experience</h2>
+      </div>
+      <p class="about-text">
+        Below are the timeline of my professional roles which highlighting my growth in my career, wishing it will be more interesting and colorful! 🌈
+      </p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 18px;">
+      
+      <!-- AIA BHD -->
+      <div class="project-card" onclick="openModal('exp-aia-modal')" style="cursor: pointer;">
+        <div class="proj-icon">📊</div>
+        <h3>Data Analyst Internship</h3>
+        <div class="edu-sub" style="margin-bottom: 12px; color: var(--accent2);">AIA BHD &nbsp;·&nbsp; Apr 2026 - Present</div>
+        <p style="margin-bottom: 12px;">Click to view full role details and responsibilities.</p>
+        <div class="proj-tags">
+          <span class="proj-tag">Data Analysis</span>
+          <span class="proj-tag">SQL</span>
+          <span class="proj-tag">Advanced Excel</span>
+          <span class="proj-tag">Data Transformation</span>
+          <span class="proj-tag">Business Reporting</span>
+          <span class="proj-tag">Data Extraction</span>
+        </div>
+      </div>
+
+      <!-- Happikiddo -->
+      <div class="project-card" onclick="openModal('exp-happikiddo-modal')" style="cursor: pointer;">
+        <div class="proj-icon">📊</div>
+        <h3>Data Analyst Internship</h3>
+        <div class="edu-sub" style="margin-bottom: 12px; color: var(--accent2);">Happikiddo (M) SDN BHD (HQ) &nbsp;·&nbsp; Jan 2024 - Mar 2024</div>
+        <p style="margin-bottom: 12px;">Click to view full role details and responsibilities.</p>
+        <div class="proj-tags">
+          <span class="proj-tag">Advanced Excel</span>
+          <span class="proj-tag">Pivot Tables</span>
+          <span class="proj-tag">Data Automation</span>
+          <span class="proj-tag">Data Cleaning</span>
+          <span class="proj-tag">Data Extraction</span>
+        </div>
+      </div>
+
+      <!-- Umobile -->
+      <div class="project-card" onclick="openModal('exp-umobile-modal')" style="cursor: pointer;">
+        <div class="proj-icon">🤵‍♂️</div>
+        <h3>Sales Executive</h3>
+        <div class="edu-sub" style="margin-bottom: 12px; color: var(--accent2);">U mobile &nbsp;·&nbsp; May 2022 - Aug 2022</div>
+        <p style="margin-bottom: 12px;">Click to view full role details and responsibilities.</p>
+        <div class="proj-tags">
+          <span class="proj-tag">Sales Strategy</span>
+          <span class="proj-tag">Customer Service</span>
+          <span class="proj-tag">Communication</span>
+          <span class="proj-tag">Problem Solving</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════ PROJECTS TAB ═══════════ -->
+  <div id="projects" class="tab">
+
+    <div class="card" style="margin-bottom:28px;">
+      <div class="card-header">
+        <div class="card-icon">🚀</div>
+        <h2>Projects</h2>
+      </div>
+      <div class="edu-item">
+          <div class="edu-dot"></div>
+          <div>
+              <div class="edu-title">Library Discussion Room Booking App</div>
+          </div>
+      </div>
+      <br>     
+      <div class="edu-item">
+        <div class="edu-dot"></div>  
+          <div>
+              <div class="edu-title">AEROSHOES: Obstacle Detection System</div>
+          </div>
+      </div>
+    </div>
+
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="proj-icon">📚</div>
+        <h3>Library Discussion Room Booking App</h3>
+        <p>- Offerer students a smooth and swift reservation process that avoids issues about occupancy rates.</p>
+        <br>
+        <p>- Responsible for the login page which when admin acc login to admin page and user go to user page.</p>
+        <br>
+        <p>- Take part in history page where user can check their history booking by clicking the history button.</p>
+        <div class="proj-tags">
+          <span class="proj-tag">Python</span>
+          <span class="proj-tag">Flutter</span>
+          <span class="proj-tag">Firebase</span>
+          <span class="proj-tag">React</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="proj-icon">📡</div>
+        <h3>AEROSHOES: Obstacle Detection System</h3>
+        <p>- Urban commuters face safety risks from uneven surfaces and unexpected obstacles during short daily travels.</p>
+        <br>
+        <p>- AeroShoe integrates AI and IoT technology into smart footwear to detect terrain and movement patterns.</p>
+        <br>
+        <p>- The system provides real-time safety alerts and insights through a mobile app for smarter commuting.</p>
+        <div class="proj-tags">
+          <span class="proj-tag">Python</span>
+          <span class="proj-tag">Flutter</span>
+          <span class="proj-tag">Firebase</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- ═══════════ Awards TAB ═══════════ -->
+  <div id="awards" class="tab">
+
+    <!-- Top Row: Awards and Certificates -->
+    <div class="projects-grid">
+      
+      <!-- Awards Div -->
+      <div class="project-card" onclick="openModal('deans-list-modal')" style="cursor: pointer;">
+        <div class="proj-icon">🎖️</div>
+        <h3>Awards (Dean's Lists)</h3>
+        <p>Click to view my academic achievements and download certificates from 2023 to 2026.</p>
+        <div class="proj-tags">
+          <span class="proj-tag">2023</span>
+          <span class="proj-tag">2024</span>
+          <span class="proj-tag">2025</span>
+          <span class="proj-tag">2026</span>
+        </div>
+      </div>
+
+      <!-- Certificates Div -->
+      <div class="project-card" onclick="openModal('certificates-modal')" style="cursor: pointer;">
+        <div class="proj-icon">📃</div>
+        <h3>Certificates</h3>
+        <p>View my completed professional courses and technical certifications.</p>
+        <div class="proj-tags">
+          <span class="proj-tag">Pandas</span>
+          <span class="proj-tag">Data Analytics</span>
+          <span class="proj-tag">Gen AI</span>
+          <span class="proj-tag">Google</span>
+        </div>
+      </div>
+
+    </div> <!-- This closes the 2-column grid -->
+
+    <!-- Bottom Row: Academic Transcripts (Full Width) -->
+    <div class="project-card" onclick="openModal('transcripts-modal')" style="cursor: pointer; margin-top: 18px;">
+      <div class="proj-icon">🎓</div>
+      <h3>Academic Transcripts</h3>
+      <p>Click to view and download my official university and college academic transcripts.</p>
+      <div class="proj-tags">
+        <span class="proj-tag">Taylor's University</span>
+        <span class="proj-tag">Taylor's College</span>
+      </div>
+    </div>
+
+  </div>
+  
+  <!-- ═══════════ CONTACT TAB ═══════════ -->
+  <div id="contact" class="tab">
+
+    <div class="card" style="margin-bottom:28px;">
+      <div class="card-header">
+        <div class="card-icon">👋</div>
+        <h2>Get In Touch</h2>
+      </div>
+      <p class="about-text">Feel free to reach out — I'm always open to new opportunities and conversations. My email and phone numbers written below👇</p>
+    </div>
+
+    <div class="contact-list">
+
+      <a class="contact-item" href="mailto:c.zihao888@gmail.com">
+        <div class="c-icon">✉️</div>
+        <div>
+          <div class="c-label">Email</div>
+          <div class="c-value">c.zihao888@gmail.com</div>
+        </div>
+      </a>
+
+      <a class="contact-item" href="tel:+60167534035">
+        <div class="c-icon">📞</div>
+        <div>
+          <div class="c-label">Phone</div>
+          <div class="c-value">+60 16-753 4035</div>
+        </div>
+      </a>
+
+      <a class="contact-item" href="www.linkedin.com/in/chong-zi-hao-0523c" target="_blank">
+        <div class="c-icon">💼</div>
+        <div>
+          <div class="c-label">LinkedIn</div>
+          <div class="c-value">Chong Zi Hao</div>
+        </div>
+      </a>
+
+      <a class="contact-item" href="https://github.com/phantom0523" target="_blank">
+        <div class="c-icon">🐙</div>
+        <div>
+          <div class="c-label">GitHub</div>
+          <div class="c-value">phantom0523</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+  
+  <!-- ═══════════ DEAN'S LIST MODAL ═══════════ -->
+  <div id="deans-list-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Dean's List Certificates</h2>
+        <button class="close-btn" onclick="closeModal('deans-list-modal')">&times;</button>
+      </div>
+      <div class="table-container">
+        <table class="awards-table">
+          <thead>
+            <tr>
+              <th>Awards</th>
+              <th>Date</th>
+              <th>Attachment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Dean's List August 2022</td>
+              <td>August 2022</td>
+              <td><a href="files/Dean_Aug22.pdf" target="_blank" class="table-link">View File</a></td>
+            </tr>
+            <tr>
+              <td>Dean's List April 2023</td>
+              <td>April 2023</td>
+              <td><a href="files/Dean_Apr23.pdf" target="_blank" class="table-link">View File</a></td>
+            </tr>
+            <tr>
+              <td>Dean's List August 2023</td>
+              <td>August 2023</td>
+              <td><a href="files/Dean_Aug23.pdf" target="_blank" class="table-link">View File</a></td>
+            </tr>
+            <tr>
+              <td>Dean's List April 2024</td>
+              <td>April 2024</td>
+              <td><a href="files/Dean_Apr24.pdf" target="_blank" class="table-link">View File</a></td>
+            </tr>
+            <tr>
+              <td>Dean's List September 2024</td>
+              <td>September 2024</td>
+              <td><a href="files/Dean_Sep24.pdf" target="_blank" class="table-link">View File</a></td>
+            </tr>
+            <tr>
+              <td>Dean's List April 2025</td>
+              <td>April 2025</td>
+              <td><a href="files/Dean_Apr25.pdf" target="_blank" class="table-link">View File</a></td>
+            </tr>
+            <tr>
+              <td>Dean's List September 2025</td>
+              <td>September 2025</td>
+              <td><a href="files/Dean_Sep25.pdf" target="_blank" class="table-link">View File</a></td>
+            </tr>
+            <tr>
+              <td>Dean's List Feb 2026</td>
+              <td>February 2026</td>
+              <td><a href="files/Dean_Feb26.pdf" target="_blank" class="table-link">View File</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ CERTIFICATES MODAL ═══════════ -->
+  <div id="certificates-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Professional Certificates</h2>
+        <button class="close-btn" onclick="closeModal('certificates-modal')">&times;</button>
+      </div>
+      <div class="table-container">
+        <table class="awards-table">
+          <thead>
+            <tr>
+              <th>Certificate Name</th>
+              <th>Issuer</th>
+              <th>Attachment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Pandas Course Certificate</td>
+              <td>Kaggle</td>
+              <td><a href="files/Kaggle_Pd_Cert.png" target="_blank" class="table-link">View File</a></td>
+            </tr>
+            <tr>
+              <td>Google Data Analytics Certificate</td>
+              <td>Google</td>
+              <td><a href="files/Google_DA_Cert.jpeg" target="_blank" class="table-link">View File</a></td>
+            </tr>
+            <tr>
+              <td>5-Days Gen AI Intensive Certificate</td>
+              <td>Kaggle</td>
+              <td><a href="files/GenAI_Cert.png" target="_blank" class="table-link">View File</a></td>
+            </tr>
+            <tr>
+              <td>Datathon RiskStorm 2025 Competition</td>
+              <td>APU</td>
+              <td><a href="files/Datathon_Cert.pdf" target="_blank" class="table-link">View File</a></td>
+            </tr>
+            <tr>
+              <td>Diploma in Information Technology With High Distinction</td>
+              <td>Taylors</td>
+              <td><a href="files/Diploma_Cert.pdf" target="_blank" class="table-link">View File</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ TRANSCRIPTS MODAL ═══════════ -->
+  <div id="transcripts-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Academic Transcripts</h2>
+        <button class="close-btn" onclick="closeModal('transcripts-modal')">&times;</button>
+      </div>
+      <div class="table-container">
+        <table class="awards-table">
+          <thead>
+            <tr>
+              <th>Institution</th>
+              <th>Program</th>
+              <th>Attachment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Taylor's University</td>
+              <td>Bachelor of Computer Science (AI)</td>
+              <td><a href="files/Degree_PTranscrip.pdf" target="_blank" class="table-link">View File</a></td>
+            </tr>
+            <tr>
+              <td>Taylor's College</td>
+              <td>Diploma in Information Technology</td>
+              <td><a href="files/Diploma_Transcript.pdf" target="_blank" class="table-link">View File</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+ <!-- ═══════════ EXPERIENCE MODALS ═══════════ -->
+  <!-- AIA BHD Modal -->
+  <div id="exp-aia-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Data Analyst Internship</h2>
+        <button class="close-btn" onclick="closeModal('exp-aia-modal')">&times;</button>
+      </div>
+      <div class="edu-sub" style="margin-bottom: 20px; color: var(--accent2); font-size: 14px;">
+        AIA BHD (Healthcare & Insights) &nbsp;|&nbsp; Apr 2026 - Present
+      </div>
+      
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div class="edu-item">
+          <div class="edu-dot"></div>
+          <div class="about-text">Developed and optimized SQL scripts for data extraction, transformation, and table aggregation based on business requirements, ensuring data accuracy and consistency.</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-dot"></div>
+          <div class="about-text">Generated weekly and monthly analytical reports by extracting and processing raw data from databases using SQL, supporting business performance monitoring and operational decision-making.</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-dot"></div>
+          <div class="about-text">Analyzed reporting outcomes to provide actionable insights and recommendations that supported data-driven business decisions.</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-dot"></div>
+          <div class="about-text">Performed User Acceptance Testing (UAT) for newly launched projects to validate system functionality, data accuracy, and business requirements prior to deployment.</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-dot"></div>
+          <div class="about-text">Collaborated with cross-functional teams to complete ad-hoc data requests, report enhancements, and analytical tasks within project timelines.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Happikiddo Modal -->
+  <div id="exp-happikiddo-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Data Analyst Internship</h2>
+        <button class="close-btn" onclick="closeModal('exp-happikiddo-modal')">&times;</button>
+      </div>
+      <div class="edu-sub" style="margin-bottom: 20px; color: var(--accent2); font-size: 14px;">
+        Happikiddo (M) SDN BHD (HQ) &nbsp;|&nbsp; Jan 2024 - Mar 2024
+      </div>
+      
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div class="edu-item">
+          <div class="edu-dot"></div>
+          <div class="about-text">Supported senior analysts in managing and interpreting large datasets using Excel, included extracting, and transforming raw data from multiple sources to ensure accuracy and consistency.</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-dot"></div>
+          <div class="about-text">Developed dynamic and automated reports utilizing advanced Excel functions and Pivot Tables to generate monthly sales reports, event-based sales summaries, and annual performance analyses.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- U mobile Modal -->
+  <div id="exp-umobile-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Sales Executive</h2>
+        <button class="close-btn" onclick="closeModal('exp-umobile-modal')">&times;</button>
+      </div>
+      <div class="edu-sub" style="margin-bottom: 20px; color: var(--accent2); font-size: 14px;">
+        U mobile &nbsp;|&nbsp; May 2022 - Aug 2022
+      </div>
+      
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div class="edu-item">
+          <div class="edu-dot"></div>
+          <div class="about-text">Holiday's Job. Serve custom with a good attitude, push sales and hit target.</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-dot"></div>
+          <div class="about-text">Meet lots of people with different personalities and learned some communication skill and having experience of deal with different problems.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">&copy; 2026 Declan</div>
+
+</div>
+
+<script>
+  function showTab(id, btn) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+  
+  function openModal(id) {
+    document.getElementById(id).classList.add('active');
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('active');
+  }
+
+  // Close modal when clicking outside of the content box
+  window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+      event.target.classList.remove('active');
+    }
+  }
+
+
+
+  // ── INTERACTIVE PARTICLE BACKGROUND ──
+  document.addEventListener("DOMContentLoaded", function() {
+      const canvas = document.getElementById("canvas-bg");
+      const ctx = canvas.getContext("2d");
+      let width, height, particles;
+      
+      // Mouse position tracking
+      const mouse = { x: null, y: null, radius: 150 };
+      window.addEventListener("mousemove", (e) => {
+        mouse.x = e.x;
+        mouse.y = e.y;
+      });
+      window.addEventListener("mouseout", () => {
+        mouse.x = null;
+        mouse.y = null;
+      });
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.size = Math.random() * 2 + 1;
+          this.vx = (Math.random() - 0.5) * 0.8;
+          this.vy = (Math.random() - 0.5) * 0.8;
+        }
+        draw() {
+          ctx.fillStyle = 'rgba(124, 106, 255, 0.7)'; 
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.closePath();
+          ctx.fill();
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > width) this.vx = -this.vx;
+          if (this.y < 0 || this.y > height) this.vy = -this.vy;
+        }
+      }
+
+      function initParticles() {
+        particles = [];
+        let numberOfParticles = (width * height) / 12000; 
+        for (let i = 0; i < numberOfParticles; i++) {
+          particles.push(new Particle());
+        }
+      }
+
+      function animateParticles() {
+        requestAnimationFrame(animateParticles);
+        ctx.clearRect(0, 0, width, height);
+        
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+          
+          // Connect particle to mouse (Fixed null check)
+          if (mouse.x !== null && mouse.y !== null) {
+            let dxMouse = mouse.x - particles[i].x;
+            let dyMouse = mouse.y - particles[i].y;
+            let distanceMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+            
+            if (distanceMouse < mouse.radius) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(167, 139, 250, ${1 - distanceMouse/mouse.radius})`; 
+              ctx.lineWidth = 1.5;
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.stroke();
+              ctx.closePath();
+            }
+          }
+
+          // Connect particle to other particles
+          for (let j = i; j < particles.length; j++) {
+            let dx = particles[i].x - particles[j].x;
+            let dy = particles[i].y - particles[j].y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < 120) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(124, 106, 255, ${0.2 - distance/600})`;
+              ctx.lineWidth = 1;
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+              ctx.closePath();
+            }
+          }
+        }
+      }
+      
+      initParticles();
+      animateParticles();
+    });
+</script>
+</body>
+</html>
